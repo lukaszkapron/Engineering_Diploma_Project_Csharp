@@ -1,4 +1,6 @@
-﻿namespace Engineering_Diploma_Project_Csharp
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace Engineering_Diploma_Project_Csharp
 {
     internal class MatchStatsService
     {
@@ -8,129 +10,21 @@
         {
             _csvReaderHelper = new CSVReaderHelper();
         }
+        
 
-        //public static IEnumerable<MatchCSV> ReadMatches()
-        //{
-        //    var matches = CSVReader.ReadMatches();
-        //    return matches;
-        //}
-
-        //public List<List<MatchCSV>> DivideMatchesInSeasons()
-        //{
-        //    var matches = _csvReader.Matches;
-
-        //    List<MatchCSV> matches_13_14_CSV = matches.Take(380).ToList();
-        //    List<MatchCSV> matches_14_15_CSV = matches.Skip(380).Take(380).ToList();
-        //    List<MatchCSV> matches_15_16_CSV = matches.Skip(380 * 2).Take(380).ToList();
-        //    List<MatchCSV> matches_16_17_CSV = matches.Skip(380 * 3).Take(380).ToList();
-        //    List<MatchCSV> matches_17_18_CSV = matches.Skip(380 * 4).Take(380).ToList();
-        //    List<MatchCSV> matches_18_19_CSV = matches.Skip(380 * 5).Take(380).ToList();
-        //    List<MatchCSV> matches_19_20_CSV = matches.Skip(380 * 6).Take(380).ToList();
-        //    List<MatchCSV> matches_20_21_CSV = matches.Skip(380 * 7).Take(380).ToList();
-        //    List<MatchCSV> matches_21_22_CSV = matches.Skip(380 * 8).Take(380).ToList();
-        //    List<MatchCSV> matches_22_23_CSV = matches.Skip(380 * 9).Take(380).ToList();
-
-        //    List<List<MatchCSV>> matchesDivided = new()
-        //    {
-        //        matches_13_14_CSV,
-        //        matches_14_15_CSV,
-        //        matches_15_16_CSV,
-        //        matches_16_17_CSV,
-        //        matches_17_18_CSV,
-        //        matches_18_19_CSV,
-        //        matches_19_20_CSV,
-        //        matches_20_21_CSV,
-        //        matches_21_22_CSV,
-        //        matches_22_23_CSV
-        //    };
-
-        //    return matchesDivided;
-        //}
-
-        //public static List<List<MatchCSV>> GetSeasonsWithCurrentSeason(DateOnly date)
-        //{
-        //    var matches = DivideMatchesInSeasons();
-
-        //    var seasonsBeforeMatch = new List<List<MatchCSV>>();
-
-        //    if (date > new DateOnly(2013, 8, 1))
-        //    {
-        //        seasonsBeforeMatch.Add(matches[0]);
-        //    }
-        //    if (date > new DateOnly(2014, 8, 1))
-        //    {
-        //        seasonsBeforeMatch.Add(matches[1]);
-        //    }
-        //    if (date > new DateOnly(2015, 8, 1))
-        //    {
-        //        seasonsBeforeMatch.Add(matches[2]);
-        //    }
-        //    if (date > new DateOnly(2016, 8, 1))
-        //    {
-        //        seasonsBeforeMatch.Add(matches[3]);
-        //    }
-        //    if (date > new DateOnly(2017, 8, 1))
-        //    {
-        //        seasonsBeforeMatch.Add(matches[4]);
-        //    }
-        //    if (date > new DateOnly(2018, 8, 1))
-        //    {
-        //        seasonsBeforeMatch.Add(matches[5]);
-        //    }
-        //    if (date > new DateOnly(2029, 8, 1))
-        //    {
-        //        seasonsBeforeMatch.Add(matches[6]);
-        //    }
-        //    if (date > new DateOnly(2020, 8, 1))
-        //    {
-        //        seasonsBeforeMatch.Add(matches[7]);
-        //    }
-        //    if (date > new DateOnly(2021, 8, 1))
-        //    {
-        //        seasonsBeforeMatch.Add(matches[8]);
-        //    }
-        //    if (date > new DateOnly(2022, 8, 1))
-        //    {
-        //        seasonsBeforeMatch.Add(matches[9]);
-        //    }
-
-        //    return seasonsBeforeMatch;
-        //}
-
-        //public static IEnumerable<MatchCSV> GetAllMatchesBeforeMatch(DateOnly date)
-        //{
-        //    var matches = ReadMatches();
-        //    var matchesBefore = matches.Where(m => m.Date < date);
-        //    return matchesBefore;
-        //}
-
-        //public static IEnumerable<MatchCSV> GetCurrentSeasonAllMatches(DateOnly date)
-        //{
-        //    var season = GetSeasonsWithCurrentSeason(date).Last();
-        //    return season;
-        //}
-
-        //public static IEnumerable<MatchCSV> GetCurrentSeasonAllMatchesBeforeMatch(DateOnly date)
-        //{
-        //    var season = GetSeasonsWithCurrentSeason(date).Last();
-        //    var matches = season.Where(m => m.Date < date);
-        //    return matches;
-        //}
-
-
-        public double NumberOfSeasonsInPLPerSeason(string teamName, DateOnly date)
+        public int NumberOfSeasonsInPLPerSeason(string teamName, DateOnly date)
         {
             var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
 
             int seasonsCount = 0;
-            foreach (var matches in seasonsWithCurrentSeason)
+            foreach (var season in seasonsWithCurrentSeason)
             {
-                if (matches.Any(m => m.HomeTeam == teamName))
+                if (season.Any(m => m.HomeTeam == teamName))
                 {
                     seasonsCount++;
                 }
             }
-            return (double)seasonsCount/seasonsWithCurrentSeason.Count;
+            return seasonsCount;
         }
 
         public bool IsNewInPL(string teamName, DateOnly date)
@@ -191,570 +85,9 @@
             }
         }  
 
-        public double CurentSeasonAveragePoints(string teamName, DateOnly date)
-        {
-            var matches = _csvReaderHelper.GetCurrentSeasonAllMatchesBeforeMatch(date);
-            if (matches.Count() == 0)
-            {
-                return 0;
-            }
-            var teamMatches = matches.Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
-            if (teamMatches.Count() == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                int points = 0;
-                foreach (var match in teamMatches)
-                {
-                    if (match.HomeTeam == teamName && match.FTR == "H")
-                    {
-                        points += 3;
-                    }
-                    if (match.AwayTeam == teamName && match.FTR == "A")
-                    {
-                        points += 3;
-                    }
-                    if (match.FTR == "D")
-                    {
-                        points += 1;
-                    }
-                }
-                return (double)points / teamMatches.Count();
-            }
-
-        }
-
-        public double CurrentSeasonAverageGoalsScored(string teamName, DateOnly date)
-        {
-            var currentSeasonMatches = _csvReaderHelper.GetCurrentSeasonAllMatchesBeforeMatch(date);
-            var cureentSeasonTeamMatches = currentSeasonMatches.Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
-            if (cureentSeasonTeamMatches.Count() == 0)
-            {
-                return 0;
-            }
-
-            int goalsScored = 0;
-            int numberOfMatches = 0;
-            foreach (var match in cureentSeasonTeamMatches)
-            {
-                if (match.HomeTeam == teamName)
-                {
-                    goalsScored += match.FTHG;
-                }
-                else if (match.AwayTeam == teamName)
-                {
-                    goalsScored += match.FTAG;
-                }
-                numberOfMatches++;
-            }
-            if (numberOfMatches == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return (double)goalsScored / numberOfMatches;
-            }
-        }
-
-        public double CurrentSeasonAverageGoalsConceded(string teamName, DateOnly date)
-        {
-            var currentSeasonMatches = _csvReaderHelper.GetCurrentSeasonAllMatchesBeforeMatch(date);
-            var cureentSeasonTeamMatches = currentSeasonMatches.Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
-            if (cureentSeasonTeamMatches.Count() == 0)
-            {
-                return 0;
-            }
-
-            int goalsConceded = 0;
-            int numberOfMatches = 0;
-            foreach (var match in cureentSeasonTeamMatches)
-            {
-                if (match.AwayTeam == teamName)
-                {
-                    goalsConceded += match.FTHG;
-                }
-                else if (match.HomeTeam == teamName)
-                {
-                    goalsConceded += match.FTAG;
-                }
-                numberOfMatches++;
-            }
-            Console.WriteLine("number of matches counted = " + numberOfMatches);
-            if (numberOfMatches == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return (double)goalsConceded / numberOfMatches;
-            }
-        }
-
-        public int LastSeasonCleanSheats(string teamName, DateOnly date)
-        {
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 2)
-            {
-                return 0;
-            }
-            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
-            int cleanSheats = 0;
-            foreach (var match in lastSeason)
-            {
-                if (match.HomeTeam == teamName && match.FTAG == 0)
-                {
-                    cleanSheats++;
-                }
-                else if (match.AwayTeam == teamName && match.FTAG == 0)
-                {
-                    cleanSheats++;
-                }
-            }
-            return cleanSheats;
-        }
 
 
-
-        public double LastSeasonAverageGoalsScored(string teamName, DateOnly date)
-        {
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 2)
-            {
-                return 0;
-            }
-            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
-            int goalsScored = 0;
-            int numberOfMatches = 0;
-            foreach (var match in lastSeason)
-            {
-                if (match.HomeTeam == teamName)
-                {
-                    goalsScored += match.FTHG;
-                }
-                else if (match.AwayTeam == teamName)
-                {
-                    goalsScored += match.FTAG;
-                }
-                numberOfMatches++;
-            }
-            Console.WriteLine("number of matches counted = " + numberOfMatches);
-            if (numberOfMatches == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return (double)goalsScored / numberOfMatches;
-            }
-        }
-
-        public double LastSeasonAverageGoalsConceded(string teamName, DateOnly date)
-        {
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 2)
-            {
-                return 0;
-            }
-            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
-            int goalsConceded = 0;
-            int numberOfMatches = 0;
-            foreach (var match in lastSeason)
-            {
-                if (match.AwayTeam == teamName)
-                {
-                    goalsConceded += match.FTHG;
-                }
-                else if (match.HomeTeam == teamName)
-                {
-                    goalsConceded += match.FTAG;
-                }
-                numberOfMatches++;
-            }
-            Console.WriteLine("number of matches counted = " + numberOfMatches);
-            if (numberOfMatches == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return (double)goalsConceded / numberOfMatches;
-            }
-        }
-
-        public double LastSeasonAveragePoints(string teamName, DateOnly date)
-        {
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 2)
-            {
-                return 0;
-            }
-            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
-            int points = 0;
-            int numberOfMatches = 0;
-
-            foreach (var match in lastSeason)
-            {
-                if (match.HomeTeam == teamName && match.FTR == "H")
-                {
-                    points += 3;
-                }
-                if (match.AwayTeam == teamName && match.FTR == "A")
-                {
-                    points += 3;
-                }
-                if (match.FTR == "D")
-                {
-                    points += 1;
-                }
-                numberOfMatches++;
-            }
-            if (numberOfMatches == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return (double)points / numberOfMatches;
-            }
-        }
-
-        public int LastSeasonWins(string teamName, DateOnly date)
-        {
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 2)
-            {
-                return 0;
-            }
-            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
-            int wins = 0;
-            int numberOfMatches = 0;
-
-            foreach (var match in lastSeason)
-            {
-                if (match.HomeTeam == teamName && match.FTR == "H")
-                {
-                    wins++;
-                }
-                else if (match.AwayTeam == teamName && match.FTR == "A")
-                {
-                    wins++;
-                }
-                numberOfMatches++;
-            }
-            if (numberOfMatches == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return wins;
-            }
-        }
-
-        public int LastSeasonLoses(string teamName, DateOnly date)
-        {
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 2)
-            {
-                return 0;
-            }
-            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
-            int loses = 0;
-            int numberOfMatches = 0;
-
-            foreach (var match in lastSeason)
-            {
-                if (match.HomeTeam == teamName && match.FTR == "A")
-                {
-                    loses++;
-                }
-                if (match.AwayTeam == teamName && match.FTR == "H")
-                {
-                    loses++;
-                }
-                numberOfMatches++;
-            }
-            if (numberOfMatches == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return loses;
-            }
-        }
-
-        public int LastSeasonDraws(string teamName, DateOnly date)
-        {
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 2)
-            {
-                return 0;
-            }
-            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
-            int draws = 0;
-            int numberOfMatches = 0;
-
-            foreach (var match in lastSeason)
-            {
-                if (match.FTR == "D")
-                {
-                    draws += 1;
-                }
-                numberOfMatches++;
-            }
-            if (numberOfMatches == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return draws;
-            }
-        }
-
-        public double LastSeasonAveragePointsHome(string teamName, DateOnly date)
-        {
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 2)
-            {
-                return 0;
-            }
-            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName);
-            int points = 0;
-            int numberOfMatches = 0;
-
-            foreach (var match in lastSeason)
-            {
-                if (match.FTR == "H")
-                {
-                    points += 3;
-                }
-                if (match.FTR == "D")
-                {
-                    points += 1;
-                }
-                numberOfMatches++;
-            }
-            if (numberOfMatches == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return (double)points / numberOfMatches;
-            }
-        }
-
-        public int LastSeasonWinsHome(string teamName, DateOnly date)
-        {
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 2)
-            {
-                return 0;
-            }
-            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName);
-            int wins = 0;
-            int numberOfMatches = 0;
-
-            foreach (var match in lastSeason)
-            {
-                if (match.FTR == "H")
-                {
-                    wins++;
-                }
-                numberOfMatches++;
-            }
-            if (numberOfMatches == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return wins;
-            }
-        }
-
-        public int LastSeasonDrawsHome(string teamName, DateOnly date)
-        {
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 2)
-            {
-                return 0;
-            }
-            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName);
-            int draws = 0;
-            int numberOfMatches = 0;
-
-            foreach (var match in lastSeason)
-            {
-                if (match.FTR == "D")
-                {
-                    draws += 1;
-                }
-                numberOfMatches++;
-            }
-            if (numberOfMatches == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return draws;
-            }
-        }
-
-        public int LastSeasonLosesHome(string teamName, DateOnly date)
-        {
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 2)
-            {
-                return 0;
-            }
-            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName);
-            int loses = 0;
-            int numberOfMatches = 0;
-
-            foreach (var match in lastSeason)
-            {
-                if (match.FTR == "A")
-                {
-                    loses++;
-                }
-                numberOfMatches++;
-            }
-            if (numberOfMatches == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return loses;
-            }
-        }
-
-        public double LastSeasonAveragePointsAway(string teamName, DateOnly date)
-        {
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 2)
-            {
-                return 0;
-            }
-            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.AwayTeam == teamName);
-            int points = 0;
-            int numberOfMatches = 0;
-
-            foreach (var match in lastSeason)
-            {
-                if (match.FTR == "A")
-                {
-                    points += 3;
-                }
-                if (match.FTR == "D")
-                {
-                    points += 1;
-                }
-                numberOfMatches++;
-            }
-            if (numberOfMatches == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return (double)points / numberOfMatches;
-            }
-        }
-
-        public double LastSeasonWinsAway(string teamName, DateOnly date)
-        {
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 2)
-            {
-                return 0;
-            }
-            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.AwayTeam == teamName);
-            int wins = 0;
-            int numberOfMatches = 0;
-
-            foreach (var match in lastSeason)
-            {
-                if (match.FTR == "A")
-                {
-                    wins++;
-                }
-                numberOfMatches++;
-            }
-            if (numberOfMatches == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return wins;
-            }
-        }
-
-        public double LastSeasonDrawsAway(string teamName, DateOnly date)
-        {
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 2)
-            {
-                return 0;
-            }
-            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.AwayTeam == teamName);
-            int draws = 0;
-            int numberOfMatches = 0;
-
-            foreach (var match in lastSeason)
-            {
-                if (match.FTR == "D")
-                {
-                    draws += 1;
-                }
-                numberOfMatches++;
-            }
-            if (numberOfMatches == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return draws;
-            }
-        }
-
-        public double LastSeasonLosesAway(string teamName, DateOnly date)
-        {
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 2)
-            {
-                return 0;
-            }
-            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.AwayTeam == teamName);
-            int loses = 0;
-            int numberOfMatches = 0;
-
-            foreach (var match in lastSeason)
-            {
-                if (match.FTR == "H")
-                {
-                    loses++;
-                }
-                numberOfMatches++;
-            }
-            if (numberOfMatches == 0)
-            {
-                return 0;
-            }
-            else
-            {
-                return loses;
-            }
-        }
+        
 
         public string LastH2HMatchResult(string teamName, string rival, DateOnly date)
         {
@@ -826,6 +159,1696 @@
             }
         }
 
+
+        //  Liczenie do 2 rozdziału pracy
+
+        public int CountDifferentTeams()
+        {
+            var allMatches = _csvReaderHelper.GetAllMatches();
+            Console.WriteLine(allMatches.Count());
+
+            List<string> teams = new();
+            foreach ( var match in allMatches)
+            {
+                if (!teams.Contains(match.HomeTeam))
+                {
+                    teams.Add(match.HomeTeam);
+                }
+            }
+            return teams.Count();
+        }
+
+        public void GetTemasNumberOfSeasons()
+        {
+            var allMatches = _csvReaderHelper.GetAllMatches();
+
+            var groupedMatches = allMatches.GroupBy(d=>d.HomeTeam).ToList();
+            foreach (var item in groupedMatches)
+            {
+                Console.WriteLine(item.Key + "\t" + item.Count()/19);
+            }
+        }
+
+
+
+        // NewComers
+
+        public List<string>? GetNewComersFromLastSeason(DateOnly date)
+        {
+            var returnList = new List<string>();
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2)
+            {
+                return null;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+            foreach (var match in lastSeason.GroupBy(w=>w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            return returnList;
+
+        }
+
+        public List<string>? GetNewComersFromLast3Seasons(DateOnly date)
+        {
+            var returnList = new List<string>();
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 4)
+            {
+                return null;
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 3].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year-2, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 4].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 3, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            return returnList;
+
+        }
+
+        public List<string>? GetNewComersFromLast5Seasons(DateOnly date)
+        {
+            var returnList = new List<string>();
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 6)
+            {
+                return null;
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 3].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 2, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 4].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 3, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 5].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 4, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 6].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 5, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            return returnList;
+
+        }
+
+        public List<string>? GetNewComersFromLast10Seasons(DateOnly date)
+        {
+            var returnList = new List<string>();
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 11)
+            {
+                return null;
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 3].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 2, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 4].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 3, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 5].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 4, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 6].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 5, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 7].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 6, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 8].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 7, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 9].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 8, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 10].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 9, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 11].GroupBy(w => w.HomeTeam))
+            {
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 10, date.Month, date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            return returnList;
+
+        }
+
+
+
+        // Ready functions:
+
+        // LastSeason:
+        public double LastSeasonAveragePointsPerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            int points = 0;
+            int numberOfMatches = 0;
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer || m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer && match.FTR == "H")
+                        {
+                            points += 3;
+                        }
+                        if (match.AwayTeam == newComer && match.FTR == "A")
+                        {
+                            points += 3;
+                        }
+                        if (match.FTR == "D")
+                        {
+                            points += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.HomeTeam == teamName && match.FTR == "H")
+                    {
+                        points += 3;
+                    }
+                    if (match.AwayTeam == teamName && match.FTR == "A")
+                    {
+                        points += 3;
+                    }
+                    if (match.FTR == "D")
+                    {
+                        points += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+                return (double)points / numberOfMatches;
+        }
+        public double LastSeasonAveragePointsHomePerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName);
+            int points = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer && match.FTR == "H")
+                        {
+                            points += 3;
+                        }
+                        if (match.FTR == "D")
+                        {
+                            points += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.HomeTeam == teamName && match.FTR == "H")
+                    {
+                        points += 3;
+                    }
+                    if (match.FTR == "D")
+                    {
+                        points += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)points / numberOfMatches;
+        }
+        public double LastSeasonAveragePointsAwayPerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.AwayTeam == teamName);
+            int points = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.AwayTeam == newComer && match.FTR == "A")
+                        {
+                            points += 3;
+                        }
+                        if (match.FTR == "D")
+                        {
+                            points += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.AwayTeam == teamName && match.FTR == "A")
+                    {
+                        points += 3;
+                    }
+                    if (match.FTR == "D")
+                    {
+                        points += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)points / numberOfMatches;
+        }
+
+        public double LastSeasonWinsPerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
+            int wins = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer || m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer && match.FTR == "H")
+                        {
+                            wins += 1;
+                        }
+                        if (match.AwayTeam == newComer && match.FTR == "A")
+                        {
+                            wins += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.HomeTeam == teamName && match.FTR == "H")
+                    {
+                        wins += 1;
+                    }
+                    if (match.AwayTeam == teamName && match.FTR == "A")
+                    {
+                        wins += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)wins / numberOfMatches;
+        }
+        public double LastSeasonWinsHomePerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName);
+            int wins = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer && match.FTR == "H")
+                        {
+                            wins += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.HomeTeam == teamName && match.FTR == "H")
+                    {
+                        wins += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)wins / numberOfMatches;
+        }
+        public double LastSeasonWinsAwayPerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.AwayTeam == teamName);
+            int wins = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.AwayTeam == newComer && match.FTR == "A")
+                        {
+                            wins += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.AwayTeam == teamName && match.FTR == "A")
+                    {
+                        wins += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)wins / numberOfMatches;
+        }
+
+        public double LastSeasonDrawsPerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
+            int draws = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer || m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.FTR == "D")
+                        {
+                            draws += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.FTR == "D")
+                    {
+                        draws += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)draws / numberOfMatches;
+        }
+        public double LastSeasonDrawsHomePerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName);
+            int draws = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer && match.FTR == "D")
+                        {
+                            draws += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.HomeTeam == teamName && match.FTR == "D")
+                    {
+                        draws += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)draws / numberOfMatches;
+        }
+        public double LastSeasonDrawsAwayPerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.AwayTeam == teamName);
+            int draws = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.AwayTeam == newComer && match.FTR == "D")
+                        {
+                            draws += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.AwayTeam == teamName && match.FTR == "D")
+                    {
+                        draws += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)draws / numberOfMatches;
+        }
+
+        public double LastSeasonLosesPerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
+            int loses = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer || m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer && match.FTR == "A")
+                        {
+                            loses += 1;
+                        }
+                        if (match.AwayTeam == newComer && match.FTR == "H")
+                        {
+                            loses += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.HomeTeam == teamName && match.FTR == "A")
+                    {
+                        loses += 1;
+                    }
+                    if (match.AwayTeam == teamName && match.FTR == "H")
+                    {
+                        loses += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)loses / numberOfMatches;
+        }
+        public double LastSeasonLosesHomePerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName);
+            int loses = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer && match.FTR == "A")
+                        {
+                            loses += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.HomeTeam == teamName && match.FTR == "A")
+                    {
+                        loses += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)loses / numberOfMatches;
+        }
+        public double LastSeasonLosesAwayPerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.AwayTeam == teamName);
+            int loses = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.AwayTeam == newComer && match.FTR == "H")
+                        {
+                            loses += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.AwayTeam == teamName && match.FTR == "H")
+                    {
+                        loses += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)loses / numberOfMatches;
+        }
+
+        public double LastSeasonAverageGoalsScoredPerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
+            int goals = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer || m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer)
+                        {
+                            goals += match.FTHG;
+                        }
+                        if (match.AwayTeam == newComer)
+                        {
+                            goals += match.FTAG;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.HomeTeam == teamName)
+                    {
+                        goals += match.FTHG;
+                    }
+                    if (match.AwayTeam == teamName)
+                    {
+                        goals += match.FTAG;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)goals / numberOfMatches;
+        }
+        public double LastSeasonAverageGoalsConcededPerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
+            int goals = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer || m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer)
+                        {
+                            goals += match.FTAG;
+                        }
+                        if (match.AwayTeam == newComer)
+                        {
+                            goals += match.FTHG;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.HomeTeam == teamName)
+                    {
+                        goals += match.FTAG;
+                    }
+                    if (match.AwayTeam == teamName)
+                    {
+                        goals += match.FTHG;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)goals / numberOfMatches;
+        }
+
+        public double LastSeasonAverageGoalsScoredHomePerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName);
+            int goals = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer)
+                        {
+                            goals += match.FTHG;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.HomeTeam == teamName)
+                    {
+                        goals += match.FTHG;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)goals / numberOfMatches;
+        }
+        public double LastSeasonAverageGoalsConcededHomePerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName);
+            int goals = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer)
+                        {
+                            goals += match.FTAG;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.HomeTeam == teamName)
+                    {
+                        goals += match.FTAG;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)goals / numberOfMatches;
+        }
+
+        public double LastSeasonAverageGoalsScoredAwayPerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.AwayTeam == teamName);
+            int goals = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.AwayTeam == newComer)
+                        {
+                            goals += match.FTAG;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.AwayTeam == teamName)
+                    {
+                        goals += match.FTAG;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)goals / numberOfMatches;
+        }
+        public double LastSeasonAverageGoalsConcededAwayPerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.AwayTeam == teamName);
+            int goals = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.AwayTeam == newComer)
+                        {
+                            goals += match.FTHG;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.AwayTeam == teamName)
+                    {
+                        goals += match.FTHG;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)goals / numberOfMatches;
+        }
+
+        public double LastSeasonCleanSheatsPerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
+            int cleanSheats = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer || m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer && match.FTAG == 0)
+                        {
+                            cleanSheats += 1;
+                        }
+                        if (match.AwayTeam == newComer && match.FTHG == 0)
+                        {
+                            cleanSheats += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.HomeTeam == teamName && match.FTAG == 0)
+                    {
+                        cleanSheats += 1;
+                    }
+                    if (match.AwayTeam == teamName && match.FTHG == 0)
+                    {
+                        cleanSheats += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)cleanSheats / numberOfMatches;
+        }
+        public double LastSeasonCleanSheatsHomePerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName);
+            int cleanSheats = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer && match.FTAG == 0)
+                        {
+                            cleanSheats += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.HomeTeam == teamName && match.FTAG == 0)
+                    {
+                        cleanSheats += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)cleanSheats / numberOfMatches;
+        }
+        public double LastSeasonCleanSheatsAwayPerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.AwayTeam == teamName);
+            int cleanSheats = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m =>m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.AwayTeam == newComer && match.FTHG == 0)
+                        {
+                            cleanSheats += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.AwayTeam == teamName && match.FTHG == 0)
+                    {
+                        cleanSheats += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)cleanSheats / numberOfMatches;
+        }
+
+
+
+
+        public double Last3SeasonsAveragePointsPerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 4)
+            {
+                return 0;
+            }
+
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
+            int points = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0)
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer || m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer && match.FTR == "H")
+                        {
+                            points += 3;
+                        }
+                        if (match.AwayTeam == newComer && match.FTR == "A")
+                        {
+                            points += 3;
+                        }
+                        if (match.FTR == "D")
+                        {
+                            points += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.HomeTeam == teamName && match.FTR == "H")
+                    {
+                        points += 3;
+                    }
+                    if (match.AwayTeam == teamName && match.FTR == "A")
+                    {
+                        points += 3;
+                    }
+                    if (match.FTR == "D")
+                    {
+                        points += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            var lastSeason2 = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 3].Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
+
+            if (lastSeason2.Count() == 0)
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year-1, date.Month, date.Day));
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 3];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer || m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer && match.FTR == "H")
+                        {
+                            points += 3;
+                        }
+                        if (match.AwayTeam == newComer && match.FTR == "A")
+                        {
+                            points += 3;
+                        }
+                        if (match.FTR == "D")
+                        {
+                            points += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason2)
+                {
+                    if (match.HomeTeam == teamName && match.FTR == "H")
+                    {
+                        points += 3;
+                    }
+                    if (match.AwayTeam == teamName && match.FTR == "A")
+                    {
+                        points += 3;
+                    }
+                    if (match.FTR == "D")
+                    {
+                        points += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            var lastSeason3 = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 4].Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
+
+            if (lastSeason3.Count() == 0)
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - 2, date.Month, date.Day));
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 4];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer || m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer && match.FTR == "H")
+                        {
+                            points += 3;
+                        }
+                        if (match.AwayTeam == newComer && match.FTR == "A")
+                        {
+                            points += 3;
+                        }
+                        if (match.FTR == "D")
+                        {
+                            points += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason3)
+                {
+                    if (match.HomeTeam == teamName && match.FTR == "H")
+                    {
+                        points += 3;
+                    }
+                    if (match.AwayTeam == teamName && match.FTR == "A")
+                    {
+                        points += 3;
+                    }
+                    if (match.FTR == "D")
+                    {
+                        points += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            return (double)points / numberOfMatches;
+        }
+        public double Last3SeasonsAveragePointsHomePerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.HomeTeam == teamName);
+            int points = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer && match.FTR == "H")
+                        {
+                            points += 3;
+                        }
+                        if (match.FTR == "D")
+                        {
+                            points += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.HomeTeam == teamName && match.FTR == "H")
+                    {
+                        points += 3;
+                    }
+                    if (match.FTR == "D")
+                    {
+                        points += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            var lastSeason2 = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 3].Where(m => m.HomeTeam == teamName);
+
+            if (lastSeason2.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year -1, date.Month, date.Day));
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 3];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer && match.FTR == "H")
+                        {
+                            points += 3;
+                        }
+                        if (match.FTR == "D")
+                        {
+                            points += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason2)
+                {
+                    if (match.HomeTeam == teamName && match.FTR == "H")
+                    {
+                        points += 3;
+                    }
+                    if (match.FTR == "D")
+                    {
+                        points += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            var lastSeason3 = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 4].Where(m => m.HomeTeam == teamName);
+
+            if (lastSeason3.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - 2, date.Month, date.Day));
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 4];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.HomeTeam == newComer && match.FTR == "H")
+                        {
+                            points += 3;
+                        }
+                        if (match.FTR == "D")
+                        {
+                            points += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason3)
+                {
+                    if (match.HomeTeam == teamName && match.FTR == "H")
+                    {
+                        points += 3;
+                    }
+                    if (match.FTR == "D")
+                    {
+                        points += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+            return (double)points / numberOfMatches;
+        }
+        public double Last3SeasonsAveragePointsAwayPerMatch(string teamName, DateOnly date)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2) // jeżeli sezon 03/04 to 0
+            {
+                return 0;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].Where(m => m.AwayTeam == teamName);
+            int points = 0;
+            int numberOfMatches = 0;
+
+            if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(date);
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.AwayTeam == newComer && match.FTR == "A")
+                        {
+                            points += 3;
+                        }
+                        if (match.FTR == "D")
+                        {
+                            points += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason)
+                {
+                    if (match.AwayTeam == teamName && match.FTR == "A")
+                    {
+                        points += 3;
+                    }
+                    if (match.FTR == "D")
+                    {
+                        points += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            var lastSeason2 = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 3].Where(m => m.AwayTeam == teamName);
+
+            if (lastSeason2.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year-1, date.Month, date.Day));
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 3];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.AwayTeam == newComer && match.FTR == "A")
+                        {
+                            points += 3;
+                        }
+                        if (match.FTR == "D")
+                        {
+                            points += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason2)
+                {
+                    if (match.AwayTeam == teamName && match.FTR == "A")
+                    {
+                        points += 3;
+                    }
+                    if (match.FTR == "D")
+                    {
+                        points += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+
+            var lastSeason3 = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 4].Where(m => m.AwayTeam == teamName);
+
+            if (lastSeason3.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            {
+                var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year-2, date.Month, date.Day));
+                foreach (var newComer in newComersFromLastSeason!)
+                {
+                    var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 4];
+                    var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.AwayTeam == newComer);
+                    foreach (var match in newComerMatchesInLastSeason)
+                    {
+                        if (match.AwayTeam == newComer && match.FTR == "A")
+                        {
+                            points += 3;
+                        }
+                        if (match.FTR == "D")
+                        {
+                            points += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+
+            }
+            else
+            {
+                foreach (var match in lastSeason3)
+                {
+                    if (match.AwayTeam == teamName && match.FTR == "A")
+                    {
+                        points += 3;
+                    }
+                    if (match.FTR == "D")
+                    {
+                        points += 1;
+                    }
+                    numberOfMatches++;
+                }
+            }
+            return (double)points / numberOfMatches;
+        }
+
+
+
+        public double NSeasonsAveragePointsPerMatch(string teamName, DateOnly date, int numberOfSeasons)
+        {
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2)
+            {
+                return 0;
+            }
+
+            int points = 0;
+            int numberOfMatches = 0;
+            for (int i = 0; i < numberOfSeasons; i++)
+            {
+                var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i+2)].Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
+
+                if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+                {
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    foreach (var newComer in newComersFromLastSeason!)
+                    {
+                        var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i+2)];
+                        var newComerMatchesInLastSeason = lastSeasonAllMatches.Where(m => m.HomeTeam == newComer || m.AwayTeam == newComer);
+                        foreach (var match in newComerMatchesInLastSeason)
+                        {
+                            if (match.HomeTeam == newComer && match.FTR == "H")
+                            {
+                                points += 3;
+                            }
+                            if (match.AwayTeam == newComer && match.FTR == "A")
+                            {
+                                points += 3;
+                            }
+                            if (match.FTR == "D")
+                            {
+                                points += 1;
+                            }
+                            numberOfMatches++;
+                        }
+                    }
+
+                }
+                else
+                {
+                    foreach (var match in lastSeason)
+                    {
+                        if (match.HomeTeam == teamName && match.FTR == "H")
+                        {
+                            points += 3;
+                        }
+                        if (match.AwayTeam == teamName && match.FTR == "A")
+                        {
+                            points += 3;
+                        }
+                        if (match.FTR == "D")
+                        {
+                            points += 1;
+                        }
+                        numberOfMatches++;
+                    }
+                }
+            }
+            
+
+            return (double)points / numberOfMatches;
+        }
     }
 }
 

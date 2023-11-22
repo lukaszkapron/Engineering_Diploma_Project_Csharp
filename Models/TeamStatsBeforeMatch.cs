@@ -7,13 +7,13 @@
             public int NumberOfSeasonsInPLPerSeason { get; set; }
             public bool IsNewInPL { get; set; }
             public bool IsFromBigSix { get; set; }
-            public int RedCardsInLastMatch { get; set; } //Jeżeli pierwszy mecz w sezonie to 0;
+            public int RedCardsInLastMatch { get; set; } //Jeżeli pierwszy mecz w sezonie to 0
 
 
 
+        // Last 10 seasons:
 
-
-        //or 5 seasons
+        // Last 5 seasons:
         public int Last5SeasonsAveragePoints { get; set; }   //Jeżeli 3 ostatnie sezony drużyna grała to 3 ostatnie sezony
         public int Last5SeasonsWins { get; set; }           //Jeżeli 2 sezony z 3 to bierzemy 2 sezony i średni wynik beniaminków z brakującego sezonu
         public int Last5SeasonsDraws { get; set; }          //Jeżeli 1 sezon z 3 to bierzemy 1 sezon i średni wynik beniaminków z dwóch ostatnich sezonów
@@ -36,57 +36,89 @@
 
         public int Last5SeasonsCleanSheats { get; set; }  //Jeżeli drużyna jest beniaminkiem to bierzemy średni wynik beniaminków z poprzedniego sezonu
 
+        public int Last5SeasonsRedCards { get; set; }
 
 
 
 
 
 
-            public int LastSeasonAveragePoints { get; set; }    //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
-            public int LastSeasonWins { get; set; }
-            public int LastSeasonDraws { get; set; }
-            public int LastSeasonLoses { get; set; }
+        // Last 1 season
+            public int LastSeasonAveragePointsPerMatch { get; set; }    //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            public int LastSeasonWinsPerMatch { get; set; }
+            public int LastSeasonDrawsPerMatch { get; set; }
+            public int LastSeasonLosesPerMatch { get; set; }
 
-            public int LastSeasonAveragePointsHome { get; set; }    //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
-            public int LastSeasonWinsHome { get; set; } 
-            public int LastSeasonDrawsHome { get; set; }
-            public int LastSeasonLosesHome { get; set; }
+            public int LastSeasonAveragePointsHomePerMatch { get; set; }    //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            public int LastSeasonWinsHomePerMatch { get; set; } 
+            public int LastSeasonDrawsHomePerMatch { get; set; }
+            public int LastSeasonLosesHomePerMatch { get; set; }
 
-            public int LastSeasonAveragePointsAway { get; set; }    //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
-            public int LastSeasonWinsAway { get; set; } 
-            public int LastSeasonDrawsAway { get; set; }
-            public int LastSeasonLosesAway { get; set; }
+            public int LastSeasonAveragePointsAwayPerMatch { get; set; }    //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+            public int LastSeasonWinsAwayPerMatch { get; set; } 
+            public int LastSeasonDrawsAwayPerMatch { get; set; }
+            public int LastSeasonLosesAwayPerMatch { get; set; }
 
-            public int LastSeasonAverageGoalsScored { get; set; }    //Jeżeli beniaminek to bierzemy średni wynik beniaminków z poprzedniego sezonu
-            public int LastSeasonAverageGoalsConceded { get; set; }
+            public int LastSeasonAverageGoalsScoredPerMatch { get; set; }    //Jeżeli beniaminek to bierzemy średni wynik beniaminków z poprzedniego sezonu
+            public int LastSeasonAverageGoalsConcededPerMatch { get; set; }
 
-            public int LastSeasonCleanSheats { get; set; }  //Jeżeli beniaminek to bierzemy średni wynik beniaminków z poprzedniego sezonu
+            public int LastSeasonAverageGoalsScoredHomePerMatch { get; set; }    //Jeżeli beniaminek to bierzemy średni wynik beniaminków z poprzedniego sezonu
+            public int LastSeasonAverageGoalsConcededHomePerMatch { get; set; }
+
+            public int LastSeasonAverageGoalsScoredAwayPerMatch { get; set; }    //Jeżeli beniaminek to bierzemy średni wynik beniaminków z poprzedniego sezonu
+            public int LastSeasonAverageGoalsConcededAwayPerMatch { get; set; }
+
+            public int LastSeasonCleanSheatsPerMatch { get; set; }  //Jeżeli beniaminek to bierzemy średni wynik beniaminków z poprzedniego sezonu
+            public int LastSeasonCleanSheatsHomePerMatch { get; set; }  //Jeżeli beniaminek to bierzemy średni wynik beniaminków z poprzedniego sezonu
+            public int LastSeasonCleanSheatsAwayPerMatch { get; set; }  //Jeżeli beniaminek to bierzemy średni wynik beniaminków z poprzedniego sezonu
+
+        public int LastSeasonRedCardsPerMatch { get; set; }
 
 
 
 
 
-
-
-        public double CurrentSeasonAveragePoints { get; set; }  //Jeżeli drużyna jest beniaminkiem to bierzemy średni wynik beniaminków z poprzedniego sezonu
+        // Current season
+        public double CurrentSeasonAveragePointsPerMatch { get; set; }  //Jeżeli drużyna jest beniaminkiem to bierzemy średni wynik beniaminków z poprzedniego sezonu
                                                                 //Jeżeli pierwszy mecz w sezonie to bierzemy średni wynik z poprzedniego sezonu
+
+        public int CurrentSeasonWinsPerMatch { get; set; }
+        public int CurrentSeasonDrawsPerMatch { get; set; }
+        public int CurrentSeasonLosesPerMatch { get; set; }
+
+        public int CurrentSeasonAveragePointsHomePerMatch { get; set; }    //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+        public int CurrentSeasonWinsHomePerMatch { get; set; }
+        public int CurrentSeasonDrawsHomePerMatch { get; set; }
+        public int CurrentSeasonLosesHomePerMatch { get; set; }
+
+        public int CurrentSeasonAveragePointsAwayPerMatch { get; set; }    //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
+        public int CurrentSeasonWinsAwayPerMatch { get; set; }
+        public int CurrentSeasonDrawsAwayPerMatch { get; set; }
+        public int CurrentSeasonLosesAwayPerMatch { get; set; }
+
 
         public int CurrentSeasonAverageGoalsScored { get; set; } //Jeżeli pierwszy mecz w sezonie to bierzemy średni wynik z poprzedniego sezonu
         public int CurrentSeasonsAverageGoalsConceded { get; set; } //Jeżeli drużyna jest beniaminkiem do bierzemy średni wynik beniaminkow z poprzedniego sezonu
 
+        public int CurrentSeasonCleanSheatsPerMatch { get; set; }  //Jeżeli beniaminek to bierzemy średni wynik beniaminków z poprzedniego sezonu
+
+        public int CurrentSeasonRedCardsPerMatch { get; set; }
 
 
+
+        //Last 5 matches
 
         public int Last5MatchesAveragePointsFromCurrentSeason { get; set; }     //Jeżeli w obecnym sezonie jeszcze nie zostało rozegrane 5 meczów to bierzemy
         public int Last5MatchesWinsFromCurrentSeason { get; set; }              //średni wynik z całego poprzedniego sezonu
         public int Last5MatchesDrawsFromCurrentSeason { get; set; }             //Jeżeli drużyna jest beniaminkiem to bierzemy 
         public int Last5MatchesLosesFromCurrentSeason { get; set; }             //średni wynik beniaminków z poprzedniego
 
+        //Home Away???
         public int Last5MatchesAverageGoalsScored { get; set; }     //Jeżeli w obecnym sezonie jeszcze nie zostało rozegrane 5 meczów to bierzemy 
         public int Last5MatchesAverageGoalsConceded { get; set; }   //średni wynik z całego poprzedniego sezonu
                                                                     //Jeżeli drużyna jest beniaminkiem to bierzemy 
-                                                                    //średni wynik beniaminków z poprzednieg
-                                                                    //o
+                                                                    //średni wynik beniaminków z poprzedniego
+
         public int Last5MatchesCleanSheats { get; set; }  //Jeżeli drużyna jest beniaminkiem to bierzemy średni wynik beniaminków z poprzedniego sezonu
 
 
@@ -99,16 +131,16 @@
                                                                              
 
 
+         
 
-
-            public int LastH2HMatchResult { get; set; }     //Jeżeli drużyny jeszcze nie grały ze sobą to CHYBA "D"
-            public int LastH2HGoalsScored { get; set; }         //Zastanowić się co zrobić jeżeli w obecnym i poprzednim sezonie drużyny nie grały ze soba?
-            public int LastH2HGoalsConceded { get; set; }       // Albo wziąc wynik h2h albo to co wyżej
+        public int LastH2HMatchResult { get; set; }     //Jeżeli drużyny jeszcze nie grały ze sobą to CHYBA "D"
+        public int LastH2HGoalsScored { get; set; }         //Zastanowić się co zrobić jeżeli w obecnym i poprzednim sezonie drużyny nie grały ze soba?
+        public int LastH2HGoalsConceded { get; set; }       // Albo wziąc wynik h2h albo to co wyżej
 
         public int Last4H2HMatchAveragePoints { get; set; }     //Jeżeli drużyny grały mniej niż 4 mecze ze sobą to bierzemy tyle meczy ile mamy 
-        //public int Last4H2HMatchWins { get; set; }        
-        //public int Last4H2HMatchDraws { get; set; }
-        //public int Last4H2HMatchLoses { get; set; }
+        public int Last4H2HMatchWins { get; set; }        
+        public int Last4H2HMatchDraws { get; set; }
+        public int Last4H2HMatchLoses { get; set; }
 
         public int Last4H2HGoalsScored { get; set; }        //Jeżeli drużyny grały mniej niż 4 mecze ze sobą to bierzemy tyle meczy ile mamy 
         public int Last4H2HGoalsConceded { get; set; }
@@ -120,7 +152,10 @@
 
         //Should be considered?
         public int DaysFromLastMatch { get; set; } //Jeżeli pierwszy mecz to CHYBA max days
-        public int AverageShotsOnTarget { get; set; }
+
+        // Napisać w pracy że można dodać ELO itp, ale nie bo robimy na czystych danych
+
+
 
     }
 }
