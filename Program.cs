@@ -61,15 +61,13 @@
 //csvWriter.WriteMatchesStats(stats, "output.csv");
 
 using Engineering_Diploma_Project_Csharp;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 Console.WriteLine("start");
 
 var matchStatsService = new MatchStatsService();
 var csvReader = new CSVReaderHelper();
 
-var point = matchStatsService.Last3SeasonsAveragePointsPerMatch("Huddersfield", new DateOnly(2020,05,30));
-//foreach (var item in point)
-//{
-//    Console.WriteLine(item);
-//}
-Console.WriteLine(point);
+var x = matchStatsService.Last5MatchesAveragePointsPerMatch("Watford", new DateOnly(2021, 09, 18));
+Console.WriteLine(x);
+
