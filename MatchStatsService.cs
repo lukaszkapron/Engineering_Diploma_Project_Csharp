@@ -3591,7 +3591,7 @@
             return (double)cleanSheats / numberOfMatches;
         }
 
-        //Last 5 matches:
+        //Last 5 matches: moze rozdzielic na dom wyjazd
         public double Last5MatchesAveragePointsPerMatch(string teamName, DateOnly date)
         {
             var currentSeasonAllMatches = _csvReaderHelper.GetCurrentSeasonAllMatchesBeforeMatch(date);
@@ -3840,6 +3840,7 @@
 
             return (double)loses / numberOfMatches;
         }
+
         public double Last5MatchesAverageGoalsScoredPerMatch(string teamName, DateOnly date)
         {
             var currentSeasonAllMatches = _csvReaderHelper.GetCurrentSeasonAllMatchesBeforeMatch(date);
@@ -3970,6 +3971,7 @@
 
             return (double)goals / numberOfMatches;
         }
+
         public double Last5MatchesCleanSheatsPerMatch(string teamName, DateOnly date)
         {
             var currentSeasonAllMatches = _csvReaderHelper.GetCurrentSeasonAllMatchesBeforeMatch(date);
@@ -4033,7 +4035,7 @@
             return (double)points / numberOfMatches;
         }
 
-        //Last H2H
+        //Last h2h
         public string LastHomeH2HMatchResult(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
@@ -4154,8 +4156,8 @@
             }
         }
 
-        //Last4H2H
-        public double Last4HomeH2HMatchAveragePoints(string teamName, string rival, DateOnly date)
+        //Last4H2H todo
+        public double Last4HomeH2HAveragePoints(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
@@ -4193,7 +4195,276 @@
             return (double)points / numberOfMatches;
 
         }
-        public int Last4HomeH2HGoalsScored(string teamName, string rival, DateOnly date)
+        public double Last4HomeH2HWins(string teamName, string rival, DateOnly date)
+        {
+            var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
+            var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new();
+            if (h2hMatches.Count() == 0)
+            {
+                return NSeasonsAveragePointsHomePerMatch(teamName, date, 2);
+            }
+            else if (h2hMatches.Count() >= 4)
+            {
+                last4h2hMatches = h2hMatches.TakeLast(4);
+            }
+            else
+            {
+                last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
+            }
+            int points = 0;
+            int numberOfMatches = 0;
+            foreach (var match in last4h2hMatches)
+            {
+                if (match.HomeTeam == teamName && match.FTR == "H")
+                {
+                    points += 3;
+                }
+                if (match.AwayTeam == teamName && match.FTR == "A")
+                {
+                    points += 3;
+                }
+                if (match.FTR == "D")
+                {
+                    points += 1;
+                }
+                numberOfMatches++;
+            }
+            return (double)points / numberOfMatches;
+
+        }
+        public double Last4HomeH2HDraws(string teamName, string rival, DateOnly date)
+        {
+            var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
+            var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new();
+            if (h2hMatches.Count() == 0)
+            {
+                return NSeasonsAveragePointsHomePerMatch(teamName, date, 2);
+            }
+            else if (h2hMatches.Count() >= 4)
+            {
+                last4h2hMatches = h2hMatches.TakeLast(4);
+            }
+            else
+            {
+                last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
+            }
+            int points = 0;
+            int numberOfMatches = 0;
+            foreach (var match in last4h2hMatches)
+            {
+                if (match.HomeTeam == teamName && match.FTR == "H")
+                {
+                    points += 3;
+                }
+                if (match.AwayTeam == teamName && match.FTR == "A")
+                {
+                    points += 3;
+                }
+                if (match.FTR == "D")
+                {
+                    points += 1;
+                }
+                numberOfMatches++;
+            }
+            return (double)points / numberOfMatches;
+
+        }
+        public double Last4HomeH2HLoses(string teamName, string rival, DateOnly date)
+        {
+            var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
+            var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new();
+            if (h2hMatches.Count() == 0)
+            {
+                return NSeasonsAveragePointsHomePerMatch(teamName, date, 2);
+            }
+            else if (h2hMatches.Count() >= 4)
+            {
+                last4h2hMatches = h2hMatches.TakeLast(4);
+            }
+            else
+            {
+                last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
+            }
+            int points = 0;
+            int numberOfMatches = 0;
+            foreach (var match in last4h2hMatches)
+            {
+                if (match.HomeTeam == teamName && match.FTR == "H")
+                {
+                    points += 3;
+                }
+                if (match.AwayTeam == teamName && match.FTR == "A")
+                {
+                    points += 3;
+                }
+                if (match.FTR == "D")
+                {
+                    points += 1;
+                }
+                numberOfMatches++;
+            }
+            return (double)points / numberOfMatches;
+
+        }
+
+        public double Last4AwayH2HAveragePoints(string teamName, string rival, DateOnly date)
+        {
+            var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
+            var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new();
+            if (h2hMatches.Count() == 0)
+            {
+                return NSeasonsAveragePointsHomePerMatch(teamName, date, 2);
+            }
+            else if (h2hMatches.Count() >= 4)
+            {
+                last4h2hMatches = h2hMatches.TakeLast(4);
+            }
+            else
+            {
+                last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
+            }
+            int points = 0;
+            int numberOfMatches = 0;
+            foreach (var match in last4h2hMatches)
+            {
+                if (match.HomeTeam == teamName && match.FTR == "H")
+                {
+                    points += 3;
+                }
+                if (match.AwayTeam == teamName && match.FTR == "A")
+                {
+                    points += 3;
+                }
+                if (match.FTR == "D")
+                {
+                    points += 1;
+                }
+                numberOfMatches++;
+            }
+            return (double)points / numberOfMatches;
+
+        }
+        public double Last4AwayH2HWins(string teamName, string rival, DateOnly date)
+        {
+            var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
+            var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new();
+            if (h2hMatches.Count() == 0)
+            {
+                return NSeasonsAveragePointsHomePerMatch(teamName, date, 2);
+            }
+            else if (h2hMatches.Count() >= 4)
+            {
+                last4h2hMatches = h2hMatches.TakeLast(4);
+            }
+            else
+            {
+                last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
+            }
+            int points = 0;
+            int numberOfMatches = 0;
+            foreach (var match in last4h2hMatches)
+            {
+                if (match.HomeTeam == teamName && match.FTR == "H")
+                {
+                    points += 3;
+                }
+                if (match.AwayTeam == teamName && match.FTR == "A")
+                {
+                    points += 3;
+                }
+                if (match.FTR == "D")
+                {
+                    points += 1;
+                }
+                numberOfMatches++;
+            }
+            return (double)points / numberOfMatches;
+
+        }
+        public double Last4AwayH2HDraws(string teamName, string rival, DateOnly date)
+        {
+            var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
+            var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new();
+            if (h2hMatches.Count() == 0)
+            {
+                return NSeasonsAveragePointsHomePerMatch(teamName, date, 2);
+            }
+            else if (h2hMatches.Count() >= 4)
+            {
+                last4h2hMatches = h2hMatches.TakeLast(4);
+            }
+            else
+            {
+                last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
+            }
+            int points = 0;
+            int numberOfMatches = 0;
+            foreach (var match in last4h2hMatches)
+            {
+                if (match.HomeTeam == teamName && match.FTR == "H")
+                {
+                    points += 3;
+                }
+                if (match.AwayTeam == teamName && match.FTR == "A")
+                {
+                    points += 3;
+                }
+                if (match.FTR == "D")
+                {
+                    points += 1;
+                }
+                numberOfMatches++;
+            }
+            return (double)points / numberOfMatches;
+
+        }
+        public double Last4AwayH2HLoses(string teamName, string rival, DateOnly date)
+        {
+            var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
+            var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new();
+            if (h2hMatches.Count() == 0)
+            {
+                return NSeasonsAveragePointsHomePerMatch(teamName, date, 2);
+            }
+            else if (h2hMatches.Count() >= 4)
+            {
+                last4h2hMatches = h2hMatches.TakeLast(4);
+            }
+            else
+            {
+                last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
+            }
+            int points = 0;
+            int numberOfMatches = 0;
+            foreach (var match in last4h2hMatches)
+            {
+                if (match.HomeTeam == teamName && match.FTR == "H")
+                {
+                    points += 3;
+                }
+                if (match.AwayTeam == teamName && match.FTR == "A")
+                {
+                    points += 3;
+                }
+                if (match.FTR == "D")
+                {
+                    points += 1;
+                }
+                numberOfMatches++;
+            }
+            return (double)points / numberOfMatches;
+
+        }
+
+
+        public double Last4HomeH2HGoalsScored(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
@@ -4210,7 +4481,7 @@
                 }
             }
         }
-        public int Last4HomeH2HGoalsConceded(string teamName, string rival, DateOnly date)
+        public double Last4HomeH2HGoalsConceded(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
@@ -4228,32 +4499,7 @@
             }
         }
 
-        public string Last4AwayH2HMatchResult(string teamName, string rival, DateOnly date)
-        {
-            var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
-            var h2hMatches = matches.Where(m => (m.AwayTeam == teamName && m.HomeTeam == rival));
-            if (h2hMatches.Count() == 0)
-            {
-                return "D";
-            }
-            else
-            {
-                var lastMatch = h2hMatches.Last();
-                if (lastMatch.FTR == "A")
-                {
-                    return lastMatch.AwayTeam;
-                }
-                else if (lastMatch.FTR == "D")
-                {
-                    return "D";
-                }
-                else
-                {
-                    return lastMatch.HomeTeam;
-                }
-            }
-        }
-        public int Last4AwayH2HGoalsScored(string teamName, string rival, DateOnly date)
+        public double Last4AwayH2HGoalsScored(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.AwayTeam == teamName && m.HomeTeam == rival));
@@ -4270,7 +4516,42 @@
                 }
             }
         }
-        public int Last4AwayH2HGoalsConceded(string teamName, string rival, DateOnly date)
+        public double Last4AwayH2HGoalsConceded(string teamName, string rival, DateOnly date)
+        {
+            var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
+            var h2hMatches = matches.Where(m => (m.AwayTeam == teamName && m.HomeTeam == rival));
+            if (h2hMatches.Count() == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                var lastMatch = h2hMatches.Last();
+                if (lastMatch.AwayTeam == teamName)
+                {
+                    return lastMatch.FTHG;
+                }
+            }
+        }
+
+        public double Last4AwayH2HCleanSheats(string teamName, string rival, DateOnly date)
+        {
+            var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
+            var h2hMatches = matches.Where(m => (m.AwayTeam == teamName && m.HomeTeam == rival));
+            if (h2hMatches.Count() == 0)
+            {
+                return 0;
+            }
+            else
+            {
+                var lastMatch = h2hMatches.Last();
+                if (lastMatch.AwayTeam == teamName)
+                {
+                    return lastMatch.FTAG;
+                }
+            }
+        }
+        public double Last4AwayH2HCleanSheats(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.AwayTeam == teamName && m.HomeTeam == rival));
