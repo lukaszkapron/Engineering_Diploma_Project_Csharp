@@ -5,8 +5,8 @@
     public class TeamStatsBeforeMatch
     {
             public int NumberOfSeasonsInPLPerSeason { get; set; }
-            public bool IsNewInPL { get; set; }
             public bool IsFromBigSix { get; set; }
+            public bool IsNewInPL { get; set; }
             public int RedCardsInLastMatch { get; set; } //Jeżeli pierwszy mecz w sezonie to 0
 
 

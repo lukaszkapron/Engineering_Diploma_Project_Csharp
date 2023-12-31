@@ -2083,3 +2083,120 @@
 //    }
 //    return (double)points / numberOfMatches;
 //}
+
+
+
+//using Engineering_Diploma_Project_Csharp;
+
+//var matchStatsService = new MatchStatsService();
+
+//var newcomers1 = matchStatsService.GetNewComersFromLastSeason(new DateOnly(2022, 12, 12)); // - beniaminkowe w sezonie 2021/22
+//var newcomers2 = matchStatsService.GetNewComersFromLastSeason(new DateOnly(2021, 12, 12));
+//var newcomers3 = matchStatsService.GetNewComersFromLastSeason(new DateOnly(2020, 12, 12));
+//var newcomers4 = matchStatsService.GetNewComersFromLastSeason(new DateOnly(2019, 12, 12));
+//var newcomers5 = matchStatsService.GetNewComersFromLastSeason(new DateOnly(2018, 12, 12));
+//foreach (var newcomer in newcomers1)
+//{
+//    var points = matchStatsService.NSeasonsAveragePointsPerMatch(newcomer, new DateOnly(2022, 12, 12), 1); // avg punkty w sezonie 2021/22
+//    Console.WriteLine(newcomer);
+//    Console.WriteLine(points);
+//}
+//foreach (var newcomer in newcomers2)
+//{
+//    var points = matchStatsService.NSeasonsAveragePointsPerMatch(newcomer, new DateOnly(2021, 12, 12), 1); // avg punkty w sezonie 2021/22
+//    Console.WriteLine(newcomer);
+//    Console.WriteLine(points);
+//}
+//foreach (var newcomer in newcomers3)
+//{
+//    var points = matchStatsService.NSeasonsAveragePointsPerMatch(newcomer, new DateOnly(2020, 12, 12), 1); // avg punkty w sezonie 2021/22
+//    Console.WriteLine(newcomer);
+//    Console.WriteLine(points);
+//}
+//foreach (var newcomer in newcomers4)
+//{
+//    var points = matchStatsService.NSeasonsAveragePointsPerMatch(newcomer, new DateOnly(2019, 12, 12), 1); // avg punkty w sezonie 2021/22
+//    Console.WriteLine(newcomer);
+//    Console.WriteLine(points);
+//}
+//foreach (var newcomer in newcomers5)
+//{
+//    var points = matchStatsService.NSeasonsAveragePointsPerMatch(newcomer, new DateOnly(2018, 12, 12), 1); // avg punkty w sezonie 2021/22
+//    Console.WriteLine(newcomer);
+//    Console.WriteLine(points);
+//}
+
+
+//var bigSix = new string[] { "Man United", "Chelsea", "Arsenal", "Man City", "Liverpool", "Tottenham" };
+//foreach (var team in bigSix)
+//{
+//    Console.WriteLine("2022");
+//    Console.WriteLine(team);
+//    var points = matchStatsService.NSeasonsAveragePointsPerMatch(team, new DateOnly(2022, 12, 12), 1); // avg punkty w sezonie 2021/22
+//    Console.WriteLine(points);
+//}
+//foreach (var team in bigSix)
+//{
+//    Console.WriteLine("2021");
+//    Console.WriteLine(team);
+//    var points = matchStatsService.NSeasonsAveragePointsPerMatch(team, new DateOnly(2021, 12, 12), 1); // avg punkty w sezonie 2021/22
+//    Console.WriteLine(points);
+//}
+//foreach (var team in bigSix)
+//{
+//    Console.WriteLine("2020");
+//    Console.WriteLine(team);
+//    var points = matchStatsService.NSeasonsAveragePointsPerMatch(team, new DateOnly(2020, 12, 12), 1); // avg punkty w sezonie 2021/22
+//    Console.WriteLine(points);
+//}
+//foreach (var team in bigSix)
+//{
+//    Console.WriteLine("2019");
+//    Console.WriteLine(team);
+//    var points = matchStatsService.NSeasonsAveragePointsPerMatch(team, new DateOnly(2019, 12, 12), 1); // avg punkty w sezonie 2021/22
+//    Console.WriteLine(points);
+//}
+//foreach (var team in bigSix)
+//{
+//    Console.WriteLine("2018");
+//    Console.WriteLine(team);
+//    var points = matchStatsService.NSeasonsAveragePointsPerMatch(team, new DateOnly(2018, 12, 12), 1); // avg punkty w sezonie 2021/22
+//    Console.WriteLine(points);
+//}
+
+//var others1 = matchStatsService.GetNotNewComersAndNoBigSixFromLastSeason(new DateOnly(2022, 12, 12));
+//var others2 = matchStatsService.GetNotNewComersAndNoBigSixFromLastSeason(new DateOnly(2021, 12, 12));
+//var others3 = matchStatsService.GetNotNewComersAndNoBigSixFromLastSeason(new DateOnly(2020, 12, 12));
+//var others4 = matchStatsService.GetNotNewComersAndNoBigSixFromLastSeason(new DateOnly(2019, 12, 12));
+//var others5 = matchStatsService.GetNotNewComersAndNoBigSixFromLastSeason(new DateOnly(2018, 12, 12));
+
+//foreach (var other in others1)
+//{
+//    var points = matchStatsService.NSeasonsAveragePointsPerMatch(other, new DateOnly(2022, 12, 12), 1); // avg punkty w sezonie 2021/22
+//    Console.WriteLine(other);
+//    Console.WriteLine(points);
+//}
+//foreach (var other in others2)
+//{
+//    var points = matchStatsService.NSeasonsAveragePointsPerMatch(other, new DateOnly(2021, 12, 12), 1); // avg punkty w sezonie 2021/22
+//    Console.WriteLine(other);
+//    Console.WriteLine(points);
+//}
+//foreach (var other in others3)
+//{
+//    var points = matchStatsService.NSeasonsAveragePointsPerMatch(other, new DateOnly(2020, 12, 12), 1); // avg punkty w sezonie 2021/22
+//    Console.WriteLine(other);
+//    Console.WriteLine(points);
+//}
+//foreach (var other in others4)
+//{
+//    var points = matchStatsService.NSeasonsAveragePointsPerMatch(other, new DateOnly(2019, 12, 12), 1); // avg punkty w sezonie 2021/22
+//    Console.WriteLine(other);
+//    Console.WriteLine(points);
+//}
+//foreach (var other in others5)
+//{
+//    var points = matchStatsService.NSeasonsAveragePointsPerMatch(other, new DateOnly(2018, 12, 12), 1); // avg punkty w sezonie 2021/22
+//    Console.WriteLine(other);
+//    Console.WriteLine(points);
+//}

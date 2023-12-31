@@ -1,4 +1,6 @@
-﻿namespace Engineering_Diploma_Project_Csharp
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace Engineering_Diploma_Project_Csharp
 {
     internal class MatchStatsService
     {
@@ -10,19 +12,22 @@
         }
 
 
-        public int NumberOfSeasonsInPLPerSeason(string teamName, DateOnly date)
+        public double NumberOfSeasonsInPLPerSeason(string teamName, DateOnly date)
         {
             var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
 
             int seasonsCount = 0;
+            int allSeasonsCount = 0;
             foreach (var season in seasonsWithCurrentSeason)
             {
                 if (season.Any(m => m.HomeTeam == teamName))
                 {
                     seasonsCount++;
                 }
+                allSeasonsCount++;
             }
-            return seasonsCount;
+            return (double)seasonsCount / allSeasonsCount;
+
         }
 
         public bool IsNewInPL(string teamName, DateOnly date)
@@ -134,7 +139,11 @@
             var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
             foreach (var match in lastSeason.GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day)))
+                if (date.Month == 2 && date.Day == 29)
+                {
+                    var newDate = new DateOnly(date.Year - 1, date.Month, date.Day == 29 ? 28 : date.Day);
+                }
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day == 29 ? 28: date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
@@ -153,21 +162,21 @@
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 3].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 2, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 2, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 4].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 3, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 3, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
@@ -186,35 +195,35 @@
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 3].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 2, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 2, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 4].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 3, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 3, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 5].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 4, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 4, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 6].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 5, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 5, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
@@ -233,70 +242,70 @@
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 3].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 2, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 2, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 4].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 3, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 3, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 5].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 4, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 4, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 6].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 5, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 5, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 7].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 6, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 6, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 8].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 7, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 7, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 9].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 8, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 8, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 10].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 9, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 9, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
             }
             foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 11].GroupBy(w => w.HomeTeam))
             {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 10, date.Month, date.Day)))
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 10, date.Month, date.Day == 29 ? 28 : date.Day)))
                 {
                     returnList.Add(match.Key);
                 }
@@ -305,7 +314,30 @@
 
         }
 
+        public List<string>? GetNotNewComersAndNoBigSixFromLastSeason(DateOnly date)
+        {
+            var returnList = new List<string>();
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2)
+            {
+                return null;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+            var grouped = lastSeason.GroupBy(w => w.HomeTeam);
+            foreach (var match in grouped)
+            {
+                if (date.Month == 2 && date.Day == 29)
+                {
+                    var newDate = new DateOnly(date.Year - 1, date.Month, date.Day == 29 ? 28 : date.Day);
+                }
+                if (!(IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day == 29 ? 28 : date.Day)) || IsBigSix(match.Key)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            return returnList;
 
+        }
 
         // Ready functions:
 
@@ -328,7 +360,8 @@
 
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newDate = new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day);
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(newDate);
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -392,7 +425,7 @@
 
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -446,7 +479,7 @@
                 var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)].Where(m => m.AwayTeam == teamName);
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -503,7 +536,7 @@
 
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -558,7 +591,7 @@
                 var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)].Where(m => m.HomeTeam == teamName);
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -606,7 +639,7 @@
 
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -655,7 +688,7 @@
 
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -703,7 +736,7 @@
 
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -751,7 +784,7 @@
 
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -800,7 +833,7 @@
 
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -855,7 +888,7 @@
                 var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)].Where(m => m.HomeTeam == teamName);
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -902,7 +935,7 @@
                 var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)].Where(m => m.AwayTeam == teamName);
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -951,7 +984,7 @@
 
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -1007,7 +1040,7 @@
 
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -1063,7 +1096,7 @@
                 var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)].Where(m => m.HomeTeam == teamName);
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -1110,7 +1143,7 @@
                 var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)].Where(m => m.HomeTeam == teamName);
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -1158,7 +1191,7 @@
                 var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)].Where(m => m.AwayTeam == teamName);
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -1205,7 +1238,7 @@
                 var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)].Where(m => m.AwayTeam == teamName);
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -1254,7 +1287,7 @@
 
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -1310,7 +1343,7 @@
 
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -1358,7 +1391,7 @@
 
                 if (lastSeason.Count() == 0) //Jeżeli beniaminek to bierzemy średni wynik beniaminków z ostatniego sezonu
                 {
-                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day));
+                    var newComersFromLastSeason = GetNewComersFromLastSeason(new DateOnly(date.Year - i, date.Month, date.Day == 29 ? 28 : date.Day));
                     foreach (var newComer in newComersFromLastSeason!)
                     {
                         var lastSeasonAllMatches = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - (i + 2)];
@@ -2922,7 +2955,7 @@
 
             return (double)loses / numberOfMatches;
         }
-        public double CurretSeasonLosesAwayPerMatch(string teamName, DateOnly date)
+        public double CurrentSeasonLosesAwayPerMatch(string teamName, DateOnly date)
         {
             var currentSeasonAllMatches = _csvReaderHelper.GetCurrentSeasonAllMatchesBeforeMatch(date);
             int loses = 0;
@@ -3790,7 +3823,7 @@
                 {
                     if (match.HomeTeam == teamName && match.FTR == "A")
                     {
-                        loses +=13;
+                        loses +=1;
                     }
                     if (match.AwayTeam == teamName && match.FTR == "H")
                     {
@@ -3975,7 +4008,7 @@
         public double Last5MatchesCleanSheatsPerMatch(string teamName, DateOnly date)
         {
             var currentSeasonAllMatches = _csvReaderHelper.GetCurrentSeasonAllMatchesBeforeMatch(date);
-            int points = 0;
+            int cleanSheats = 0;
             int numberOfMatches = 0;
             var currentSeason = currentSeasonAllMatches.Where(m => m.HomeTeam == teamName || m.AwayTeam == teamName);
             if (currentSeason.Count() < 5 && IsNewInPL(teamName, date)) // w tym sezonie mniej niz 5 meczy rozegrała
@@ -4032,14 +4065,14 @@
             }
 
 
-            return (double)points / numberOfMatches;
+            return (double)cleanSheats / numberOfMatches;
         }
 
         //Last h2h
         public string LastHomeH2HMatchResult(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
-            var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival) );
+            var h2hMatches = matches.Where(m => m.HomeTeam == teamName && m.AwayTeam == rival);
             if (h2hMatches.Count() == 0)
             {
                 return "D";
@@ -4049,7 +4082,7 @@
                 var lastMatch = h2hMatches.Last();
                 if (lastMatch.FTR == "A")
                 {
-                    return lastMatch.AwayTeam;
+                    return "L";
                 }
                 else if (lastMatch.FTR == "D")
                 {
@@ -4057,11 +4090,11 @@
                 }
                 else
                 {
-                    return lastMatch.HomeTeam;
+                    return "W";
                 }
             }
         }
-        public int LastHomeH2HGoalsScored(string teamName, string rival, DateOnly date)
+        public double LastHomeH2HGoalsScored(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival) );
@@ -4072,27 +4105,23 @@
             else
             {
                 var lastMatch = h2hMatches.Last();
-                if (lastMatch.HomeTeam == teamName)
-                {
-                    return lastMatch.FTHG;
-                }
+                return lastMatch.FTHG;
+
             }
         }
-        public int LastHomeH2HGoalsConceded(string teamName, string rival, DateOnly date)
+        public double LastHomeH2HGoalsConceded(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
             if (h2hMatches.Count() == 0)
             {
-                return NSeasonsAverageGoalsConcededHomePerMatch(teamName, date, 1);
+                return NSeasonsAverageGoalsScoredHomePerMatch(teamName, date, 1);
             }
             else
             {
                 var lastMatch = h2hMatches.Last();
-                if (lastMatch.HomeTeam == teamName)
-                {
-                    return lastMatch.FTAG;
-                }
+                return lastMatch.FTAG;
+
             }
         }
 
@@ -4109,7 +4138,7 @@
                 var lastMatch = h2hMatches.Last();
                 if (lastMatch.FTR == "A")
                 {
-                    return lastMatch.AwayTeam;
+                    return "W";
                 }
                 else if (lastMatch.FTR == "D")
                 {
@@ -4117,11 +4146,11 @@
                 }
                 else
                 {
-                    return lastMatch.HomeTeam;
+                    return "L";
                 }
             }
         }
-        public int LastAwayH2HGoalsScored(string teamName, string rival, DateOnly date)
+        public double LastAwayH2HGoalsScored(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.AwayTeam == teamName && m.HomeTeam == rival));
@@ -4132,13 +4161,10 @@
             else
             {
                 var lastMatch = h2hMatches.Last();
-                if (lastMatch.AwayTeam == teamName)
-                {
-                    return lastMatch.FTAG;
-                }
+                return lastMatch.FTAG;
             }
         }
-        public int LastAwayH2HGoalsConceded(string teamName, string rival, DateOnly date)
+        public double LastAwayH2HGoalsConceded(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.AwayTeam == teamName && m.HomeTeam == rival));
@@ -4149,19 +4175,16 @@
             else
             {
                 var lastMatch = h2hMatches.Last();
-                if (lastMatch.AwayTeam == teamName)
-                {
-                    return lastMatch.FTHG;
-                }
+                return lastMatch.FTHG;
             }
         }
 
-        //Last4H2H todo
+        //Last4H2H
         public double Last4HomeH2HAveragePoints(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
-            IEnumerable<Models.MatchCSV> last4h2hMatches = new();
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new List<Models.MatchCSV>();
             if (h2hMatches.Count() == 0)
             {
                 return NSeasonsAveragePointsHomePerMatch(teamName, date, 2);
@@ -4182,10 +4205,6 @@
                 {
                     points += 3;
                 }
-                if (match.AwayTeam == teamName && match.FTR == "A")
-                {
-                    points += 3;
-                }
                 if (match.FTR == "D")
                 {
                     points += 1;
@@ -4199,10 +4218,10 @@
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
-            IEnumerable<Models.MatchCSV> last4h2hMatches = new();
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new List<Models.MatchCSV>();
             if (h2hMatches.Count() == 0)
             {
-                return NSeasonsAveragePointsHomePerMatch(teamName, date, 2);
+                return NSeasonsWinsHomePerMatch(teamName, date, 2);
             }
             else if (h2hMatches.Count() >= 4)
             {
@@ -4212,35 +4231,27 @@
             {
                 last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
             }
-            int points = 0;
+            int wins = 0;
             int numberOfMatches = 0;
             foreach (var match in last4h2hMatches)
             {
                 if (match.HomeTeam == teamName && match.FTR == "H")
                 {
-                    points += 3;
-                }
-                if (match.AwayTeam == teamName && match.FTR == "A")
-                {
-                    points += 3;
-                }
-                if (match.FTR == "D")
-                {
-                    points += 1;
+                    wins += 1;
                 }
                 numberOfMatches++;
             }
-            return (double)points / numberOfMatches;
+            return (double)wins / numberOfMatches;
 
         }
         public double Last4HomeH2HDraws(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
-            IEnumerable<Models.MatchCSV> last4h2hMatches = new();
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new List<Models.MatchCSV>();
             if (h2hMatches.Count() == 0)
             {
-                return NSeasonsAveragePointsHomePerMatch(teamName, date, 2);
+                return NSeasonsDrawsHomePerMatch(teamName, date, 2);
             }
             else if (h2hMatches.Count() >= 4)
             {
@@ -4250,35 +4261,27 @@
             {
                 last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
             }
-            int points = 0;
+            int draws = 0;
             int numberOfMatches = 0;
             foreach (var match in last4h2hMatches)
             {
-                if (match.HomeTeam == teamName && match.FTR == "H")
+                if (match.HomeTeam == teamName && match.FTR == "D")
                 {
-                    points += 3;
-                }
-                if (match.AwayTeam == teamName && match.FTR == "A")
-                {
-                    points += 3;
-                }
-                if (match.FTR == "D")
-                {
-                    points += 1;
+                    draws += 1;
                 }
                 numberOfMatches++;
             }
-            return (double)points / numberOfMatches;
+            return (double)draws / numberOfMatches;
 
         }
         public double Last4HomeH2HLoses(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
-            IEnumerable<Models.MatchCSV> last4h2hMatches = new();
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new List<Models.MatchCSV>();
             if (h2hMatches.Count() == 0)
             {
-                return NSeasonsAveragePointsHomePerMatch(teamName, date, 2);
+                return NSeasonsLosesHomePerMatch(teamName, date, 2);
             }
             else if (h2hMatches.Count() >= 4)
             {
@@ -4288,36 +4291,28 @@
             {
                 last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
             }
-            int points = 0;
+            int loses = 0;
             int numberOfMatches = 0;
             foreach (var match in last4h2hMatches)
             {
-                if (match.HomeTeam == teamName && match.FTR == "H")
+                if (match.HomeTeam == teamName && match.FTR == "A")
                 {
-                    points += 3;
-                }
-                if (match.AwayTeam == teamName && match.FTR == "A")
-                {
-                    points += 3;
-                }
-                if (match.FTR == "D")
-                {
-                    points += 1;
+                    loses += 1;
                 }
                 numberOfMatches++;
             }
-            return (double)points / numberOfMatches;
+            return (double)loses / numberOfMatches;
 
         }
 
         public double Last4AwayH2HAveragePoints(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
-            var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
-            IEnumerable<Models.MatchCSV> last4h2hMatches = new();
+            var h2hMatches = matches.Where(m => (m.AwayTeam == teamName && m.HomeTeam == rival));
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new List<Models.MatchCSV>();
             if (h2hMatches.Count() == 0)
             {
-                return NSeasonsAveragePointsHomePerMatch(teamName, date, 2);
+                return NSeasonsAveragePointsAwayPerMatch(teamName, date, 2);
             }
             else if (h2hMatches.Count() >= 4)
             {
@@ -4331,10 +4326,6 @@
             int numberOfMatches = 0;
             foreach (var match in last4h2hMatches)
             {
-                if (match.HomeTeam == teamName && match.FTR == "H")
-                {
-                    points += 3;
-                }
                 if (match.AwayTeam == teamName && match.FTR == "A")
                 {
                     points += 3;
@@ -4351,11 +4342,11 @@
         public double Last4AwayH2HWins(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
-            var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
-            IEnumerable<Models.MatchCSV> last4h2hMatches = new();
+            var h2hMatches = matches.Where(m => (m.AwayTeam == teamName && m.HomeTeam == rival));
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new List<Models.MatchCSV>();
             if (h2hMatches.Count() == 0)
             {
-                return NSeasonsAveragePointsHomePerMatch(teamName, date, 2);
+                return NSeasonsWinsAwayPerMatch(teamName, date, 2);
             }
             else if (h2hMatches.Count() >= 4)
             {
@@ -4365,35 +4356,27 @@
             {
                 last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
             }
-            int points = 0;
+            int wins = 0;
             int numberOfMatches = 0;
             foreach (var match in last4h2hMatches)
             {
-                if (match.HomeTeam == teamName && match.FTR == "H")
-                {
-                    points += 3;
-                }
                 if (match.AwayTeam == teamName && match.FTR == "A")
                 {
-                    points += 3;
-                }
-                if (match.FTR == "D")
-                {
-                    points += 1;
+                    wins += 1;
                 }
                 numberOfMatches++;
             }
-            return (double)points / numberOfMatches;
+            return (double)wins / numberOfMatches;
 
         }
         public double Last4AwayH2HDraws(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
-            var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
-            IEnumerable<Models.MatchCSV> last4h2hMatches = new();
+            var h2hMatches = matches.Where(m => (m.AwayTeam == teamName && m.HomeTeam == rival));
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new List<Models.MatchCSV>();
             if (h2hMatches.Count() == 0)
             {
-                return NSeasonsAveragePointsHomePerMatch(teamName, date, 2);
+                return NSeasonsDrawsAwayPerMatch(teamName, date, 2);
             }
             else if (h2hMatches.Count() >= 4)
             {
@@ -4403,35 +4386,27 @@
             {
                 last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
             }
-            int points = 0;
+            int draws = 0;
             int numberOfMatches = 0;
             foreach (var match in last4h2hMatches)
             {
-                if (match.HomeTeam == teamName && match.FTR == "H")
+                if (match.AwayTeam == teamName && match.FTR == "D")
                 {
-                    points += 3;
-                }
-                if (match.AwayTeam == teamName && match.FTR == "A")
-                {
-                    points += 3;
-                }
-                if (match.FTR == "D")
-                {
-                    points += 1;
+                    draws += 1;
                 }
                 numberOfMatches++;
             }
-            return (double)points / numberOfMatches;
+            return (double)draws / numberOfMatches;
 
         }
         public double Last4AwayH2HLoses(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
-            var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
-            IEnumerable<Models.MatchCSV> last4h2hMatches = new();
+            var h2hMatches = matches.Where(m => (m.AwayTeam == teamName && m.HomeTeam == rival));
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new List<Models.MatchCSV>();
             if (h2hMatches.Count() == 0)
             {
-                return NSeasonsAveragePointsHomePerMatch(teamName, date, 2);
+                return NSeasonsLosesAwayPerMatch(teamName, date, 2);
             }
             else if (h2hMatches.Count() >= 4)
             {
@@ -4441,132 +4416,183 @@
             {
                 last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
             }
-            int points = 0;
+            int loses = 0;
             int numberOfMatches = 0;
             foreach (var match in last4h2hMatches)
             {
-                if (match.HomeTeam == teamName && match.FTR == "H")
+                if (match.AwayTeam == teamName && match.FTR == "H")
                 {
-                    points += 3;
-                }
-                if (match.AwayTeam == teamName && match.FTR == "A")
-                {
-                    points += 3;
-                }
-                if (match.FTR == "D")
-                {
-                    points += 1;
+                    loses += 1;
                 }
                 numberOfMatches++;
             }
-            return (double)points / numberOfMatches;
+            return (double)loses / numberOfMatches;
 
         }
-
 
         public double Last4HomeH2HGoalsScored(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new List<Models.MatchCSV>();
             if (h2hMatches.Count() == 0)
             {
-                return 0;
+                return NSeasonsAverageGoalsScoredHomePerMatch(teamName, date, 2);
+            }
+            else if (h2hMatches.Count() >= 4)
+            {
+                last4h2hMatches = h2hMatches.TakeLast(4);
             }
             else
             {
-                var lastMatch = h2hMatches.Last();
-                if (lastMatch.HomeTeam == teamName)
-                {
-                    return lastMatch.FTHG;
-                }
+                last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
             }
+            int goals = 0;
+            int numberOfMatches = 0;
+            foreach (var match in last4h2hMatches)
+            {
+                goals += match.FTHG;
+                numberOfMatches++;
+            }
+            return (double)goals / numberOfMatches;
         }
         public double Last4HomeH2HGoalsConceded(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new List<Models.MatchCSV>();
             if (h2hMatches.Count() == 0)
             {
-                return 0;
+                return NSeasonsAverageGoalsConcededHomePerMatch(teamName, date, 2);
+            }
+            else if (h2hMatches.Count() >= 4)
+            {
+                last4h2hMatches = h2hMatches.TakeLast(4);
             }
             else
             {
-                var lastMatch = h2hMatches.Last();
-                if (lastMatch.HomeTeam == teamName)
-                {
-                    return lastMatch.FTAG;
-                }
+                last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
             }
+            int goals = 0;
+            int numberOfMatches = 0;
+            foreach (var match in last4h2hMatches)
+            {
+                goals += match.FTAG;
+                numberOfMatches++;
+            }
+            return (double)goals / numberOfMatches;
         }
 
         public double Last4AwayH2HGoalsScored(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.AwayTeam == teamName && m.HomeTeam == rival));
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new List<Models.MatchCSV>();
             if (h2hMatches.Count() == 0)
             {
-                return 0;
+                return NSeasonsAverageGoalsScoredAwayPerMatch(teamName, date, 2);
+            }
+            else if (h2hMatches.Count() >= 4)
+            {
+                last4h2hMatches = h2hMatches.TakeLast(4);
             }
             else
             {
-                var lastMatch = h2hMatches.Last();
-                if (lastMatch.AwayTeam == teamName)
-                {
-                    return lastMatch.FTAG;
-                }
+                last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
             }
+            int goals = 0;
+            int numberOfMatches = 0;
+            foreach (var match in last4h2hMatches)
+            {
+                goals += match.FTAG;
+                numberOfMatches++;
+            }
+            return (double)goals / numberOfMatches;
         }
         public double Last4AwayH2HGoalsConceded(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.AwayTeam == teamName && m.HomeTeam == rival));
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new List<Models.MatchCSV>();
             if (h2hMatches.Count() == 0)
             {
-                return 0;
+                return NSeasonsAverageGoalsConcededAwayPerMatch(teamName, date, 2);
+            }
+            else if (h2hMatches.Count() >= 4)
+            {
+                last4h2hMatches = h2hMatches.TakeLast(4);
             }
             else
             {
-                var lastMatch = h2hMatches.Last();
-                if (lastMatch.AwayTeam == teamName)
-                {
-                    return lastMatch.FTHG;
-                }
+                last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
             }
+            int goals = 0;
+            int numberOfMatches = 0;
+            foreach (var match in last4h2hMatches)
+            {
+                goals += match.FTHG;
+                numberOfMatches++;
+            }
+            return (double)goals / numberOfMatches;
         }
 
-        public double Last4AwayH2HCleanSheats(string teamName, string rival, DateOnly date)
+        public double Last4HomeH2HCleanSheats(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
-            var h2hMatches = matches.Where(m => (m.AwayTeam == teamName && m.HomeTeam == rival));
+            var h2hMatches = matches.Where(m => (m.HomeTeam == teamName && m.AwayTeam == rival));
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new List<Models.MatchCSV>();
             if (h2hMatches.Count() == 0)
             {
-                return 0;
+                return NSeasonsCleanSheatsHomePerMatch(teamName, date, 2);
+            }
+            else if (h2hMatches.Count() >= 4)
+            {
+                last4h2hMatches = h2hMatches.TakeLast(4);
             }
             else
             {
-                var lastMatch = h2hMatches.Last();
-                if (lastMatch.AwayTeam == teamName)
-                {
-                    return lastMatch.FTAG;
-                }
+                last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
             }
+            int cleanSheats = 0;
+            int numberOfMatches = 0;
+            foreach (var match in last4h2hMatches)
+            {
+                if (match.FTAG == 0)
+                {
+                    cleanSheats++;
+                }
+                numberOfMatches++;
+            }
+            return (double)cleanSheats / numberOfMatches;
         }
         public double Last4AwayH2HCleanSheats(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
             var h2hMatches = matches.Where(m => (m.AwayTeam == teamName && m.HomeTeam == rival));
+            IEnumerable<Models.MatchCSV> last4h2hMatches = new List<Models.MatchCSV>();
             if (h2hMatches.Count() == 0)
             {
-                return 0;
+                return NSeasonsCleanSheatsAwayPerMatch(teamName, date, 2);
+            }
+            else if (h2hMatches.Count() >= 4)
+            {
+                last4h2hMatches = h2hMatches.TakeLast(4);
             }
             else
             {
-                var lastMatch = h2hMatches.Last();
-                if (lastMatch.AwayTeam == teamName)
-                {
-                    return lastMatch.FTHG;
-                }
+                last4h2hMatches = h2hMatches.TakeLast(h2hMatches.Count());
             }
+            int cleanSheats = 0;
+            int numberOfMatches = 0;
+            foreach (var match in last4h2hMatches)
+            {
+                if (match.FTHG == 0)
+                {
+                    cleanSheats++;
+                }
+                numberOfMatches++;
+            }
+            return (double)cleanSheats / numberOfMatches;
         }
     }
 }
