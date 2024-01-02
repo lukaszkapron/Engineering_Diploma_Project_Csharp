@@ -2990,7 +2990,7 @@ namespace Engineering_Diploma_Project_Csharp
                     var teamlastSeasonMatches = lastSeasonAllMatches.Where(m => m.AwayTeam == teamName);
                     foreach (var match in teamlastSeasonMatches)
                     {
-                        if (match.HomeTeam == teamName && match.FTR == "A")
+                        if (match.AwayTeam == teamName && match.FTR == "H")
                         {
                             loses += 1;
                         }
@@ -3003,11 +3003,10 @@ namespace Engineering_Diploma_Project_Csharp
             {
                 foreach (var match in currentSeason)
                 {
-                    if (match.HomeTeam == teamName && match.FTR == "A")
+                    if (match.AwayTeam == teamName && match.FTR == "H")
                     {
                         loses += 1;
                     }
-
                     numberOfMatches++;
                 }
             }
