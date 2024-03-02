@@ -6,11 +6,15 @@ namespace Engineering_Diploma_Project_Csharp
 {
     public class CSVReaderHelper
     {
-        public IEnumerable<MatchCSV> Matches { get; set; }
+        public IEnumerable<MatchCSV> Matches { get; set; } 
+        public List<List<MatchCSV>> MachesDividedInSeasons { get; set; }
 
         public CSVReaderHelper() 
         {
             Matches = ReadMatches();
+            var matches = Matches;
+            MachesDividedInSeasons = DivideMatchesInSeasons(matches);
+
         }
 
         private static IEnumerable<MatchCSV> ReadMatches()
@@ -23,10 +27,8 @@ namespace Engineering_Diploma_Project_Csharp
             return matchesCSV.ToList();
         }
 
-        public List<List<MatchCSV>> DivideMatchesInSeasons()
+        private static List<List<MatchCSV>> DivideMatchesInSeasons(IEnumerable<MatchCSV> matches)
         {
-            var matches = Matches;
-
             List<MatchCSV> matches_03_04_CSV = matches.Take(380).ToList();
             List<MatchCSV> matches_04_05_CSV = matches.Skip(380).Take(380).ToList();
             List<MatchCSV> matches_05_06_CSV = matches.Skip(380 * 2).Take(380).ToList();
@@ -48,7 +50,7 @@ namespace Engineering_Diploma_Project_Csharp
             List<MatchCSV> matches_21_22_CSV = matches.Skip(380 * 18).Take(380).ToList();
             List<MatchCSV> matches_22_23_CSV = matches.Skip(380 * 19).Take(380).ToList();
 
-            List<List<MatchCSV>> matchesDivided = new()
+            List<List<MatchCSV>> matchesDividedInSeasons = new()
             {
                 matches_03_04_CSV,
                 matches_04_05_CSV,
@@ -72,12 +74,13 @@ namespace Engineering_Diploma_Project_Csharp
                 matches_22_23_CSV
             };
 
-            return matchesDivided;
+            return matchesDividedInSeasons;
         }
+
 
         public List<List<MatchCSV>> GetSeasonsWithCurrentSeason(DateOnly date)
         {
-            var matches = DivideMatchesInSeasons();
+            var matches = MachesDividedInSeasons;
 
             var seasonsBeforeMatch = new List<List<MatchCSV>>();
 
@@ -174,8 +177,7 @@ namespace Engineering_Diploma_Project_Csharp
 
         public IEnumerable<MatchCSV> GetCurrentSeasonAllMatches(DateOnly date)
         {
-            var season = GetSeasonsWithCurrentSeason(date).Last();
-            return season;
+            return GetSeasonsWithCurrentSeason(date).Last();
         }
 
         public IEnumerable<MatchCSV> GetCurrentSeasonAllMatchesBeforeMatch(DateOnly date)
@@ -183,11 +185,6 @@ namespace Engineering_Diploma_Project_Csharp
             var season = GetSeasonsWithCurrentSeason(date).Last();
             var matches = season.Where(m => m.Date < date);
             return matches;
-        }
-
-        public IEnumerable<MatchCSV> GetAllMatches()
-        {
-            return ReadMatches();
         }
 
     }

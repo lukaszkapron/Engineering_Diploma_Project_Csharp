@@ -1,6 +1,4 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace Engineering_Diploma_Project_Csharp
+﻿namespace Engineering_Diploma_Project_Csharp
 {
     internal class MatchStatsService
     {
@@ -11,6 +9,30 @@ namespace Engineering_Diploma_Project_Csharp
             _csvReaderHelper = new CSVReaderHelper();
         }
 
+        // NewComers
+        private List<string>? GetNewComersFromLastSeason(DateOnly date)
+        {
+            var returnList = new List<string>();
+            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
+            if (seasonsWithCurrentSeason.Count < 2)
+            {
+                return null;
+            }
+            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
+            foreach (var match in lastSeason.GroupBy(w => w.HomeTeam))
+            {
+                if (date.Month == 2 && date.Day == 29)
+                {
+                    var newDate = new DateOnly(date.Year - 1, date.Month, date.Day == 29 ? 28 : date.Day);
+                }
+                if (IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day == 29 ? 28 : date.Day)))
+                {
+                    returnList.Add(match.Key);
+                }
+            }
+            return returnList;
+
+        }
 
         public double NumberOfSeasonsInPLPerSeason(string teamName, DateOnly date)
         {
@@ -29,7 +51,6 @@ namespace Engineering_Diploma_Project_Csharp
             return (double)seasonsCount / allSeasonsCount;
 
         }
-
         public bool IsNewInPL(string teamName, DateOnly date)
         {
             var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
@@ -48,7 +69,6 @@ namespace Engineering_Diploma_Project_Csharp
             }
 
         }
-
         public bool IsBigSix(string teamName)
         {
             if (teamName == "Arsenal" || teamName == "Chelsea" || teamName == "Man City" || teamName == "Man United" || teamName == "Liverpool" || teamName == "Tottenham")
@@ -60,7 +80,6 @@ namespace Engineering_Diploma_Project_Csharp
                 return false;
             }
         }
-
         public int NumberOfRedCardsInLastMatch(string teamName, DateOnly date)
         {
             var matches = _csvReaderHelper.GetCurrentSeasonAllMatchesBeforeMatch(date);
@@ -87,260 +106,6 @@ namespace Engineering_Diploma_Project_Csharp
                 return teamLastMatch.AR;
             }
         }
-
-
-
-
-
-
-
-
-        //  Liczenie do 2 rozdziału pracy
-
-        public int CountDifferentTeams()
-        {
-            var allMatches = _csvReaderHelper.GetAllMatches();
-            Console.WriteLine(allMatches.Count());
-
-            List<string> teams = new();
-            foreach (var match in allMatches)
-            {
-                if (!teams.Contains(match.HomeTeam))
-                {
-                    teams.Add(match.HomeTeam);
-                }
-            }
-            return teams.Count();
-        }
-
-        public void GetTemasNumberOfSeasons()
-        {
-            var allMatches = _csvReaderHelper.GetAllMatches();
-
-            var groupedMatches = allMatches.GroupBy(d => d.HomeTeam).ToList();
-            foreach (var item in groupedMatches)
-            {
-                Console.WriteLine(item.Key + "\t" + item.Count() / 19);
-            }
-        }
-
-
-
-        // NewComers
-
-        public List<string>? GetNewComersFromLastSeason(DateOnly date)
-        {
-            var returnList = new List<string>();
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 2)
-            {
-                return null;
-            }
-            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
-            foreach (var match in lastSeason.GroupBy(w => w.HomeTeam))
-            {
-                if (date.Month == 2 && date.Day == 29)
-                {
-                    var newDate = new DateOnly(date.Year - 1, date.Month, date.Day == 29 ? 28 : date.Day);
-                }
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day == 29 ? 28: date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            return returnList;
-
-        }
-
-        public List<string>? GetNewComersFromLast3Seasons(DateOnly date)
-        {
-            var returnList = new List<string>();
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 4)
-            {
-                return null;
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 3].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 2, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 4].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 3, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            return returnList;
-
-        }
-
-        public List<string>? GetNewComersFromLast5Seasons(DateOnly date)
-        {
-            var returnList = new List<string>();
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 6)
-            {
-                return null;
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 3].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 2, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 4].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 3, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 5].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 4, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 6].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 5, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            return returnList;
-
-        }
-
-        public List<string>? GetNewComersFromLast10Seasons(DateOnly date)
-        {
-            var returnList = new List<string>();
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 11)
-            {
-                return null;
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 3].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 2, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 4].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 3, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 5].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 4, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 6].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 5, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 7].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 6, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 8].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 7, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 9].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 8, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 10].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 9, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            foreach (var match in seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 11].GroupBy(w => w.HomeTeam))
-            {
-                if (IsNewInPL(match.Key, new DateOnly(date.Year - 10, date.Month, date.Day == 29 ? 28 : date.Day)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            return returnList;
-
-        }
-
-        public List<string>? GetNotNewComersAndNoBigSixFromLastSeason(DateOnly date)
-        {
-            var returnList = new List<string>();
-            var seasonsWithCurrentSeason = _csvReaderHelper.GetSeasonsWithCurrentSeason(date);
-            if (seasonsWithCurrentSeason.Count < 2)
-            {
-                return null;
-            }
-            var lastSeason = seasonsWithCurrentSeason[seasonsWithCurrentSeason.Count - 2];
-            var grouped = lastSeason.GroupBy(w => w.HomeTeam);
-            foreach (var match in grouped)
-            {
-                if (date.Month == 2 && date.Day == 29)
-                {
-                    var newDate = new DateOnly(date.Year - 1, date.Month, date.Day == 29 ? 28 : date.Day);
-                }
-                if (!(IsNewInPL(match.Key, new DateOnly(date.Year - 1, date.Month, date.Day == 29 ? 28 : date.Day)) || IsBigSix(match.Key)))
-                {
-                    returnList.Add(match.Key);
-                }
-            }
-            return returnList;
-
-        }
-
-        // Ready functions:
-
 
 
         //N Seasons:
@@ -1423,8 +1188,6 @@ namespace Engineering_Diploma_Project_Csharp
 
             return (double)cleanSheats / numberOfMatches;
         }
-
-
 
 
         //Current season:
@@ -3623,7 +3386,8 @@ namespace Engineering_Diploma_Project_Csharp
             return (double)cleanSheats / numberOfMatches;
         }
 
-        //Last 5 matches: moze rozdzielic na dom wyjazd
+
+        //Last 5 matches
         public double Last5MatchesAveragePointsPerMatch(string teamName, DateOnly date)
         {
             var currentSeasonAllMatches = _csvReaderHelper.GetCurrentSeasonAllMatchesBeforeMatch(date);
@@ -4067,7 +3831,8 @@ namespace Engineering_Diploma_Project_Csharp
             return (double)cleanSheats / numberOfMatches;
         }
 
-        //Last h2h
+
+        //Last H2H
         public string LastHomeH2HMatchResult(string teamName, string rival, DateOnly date)
         {
             var matches = _csvReaderHelper.GetAllMatchesBeforeMatch(date);
@@ -4593,6 +4358,10 @@ namespace Engineering_Diploma_Project_Csharp
             }
             return (double)cleanSheats / numberOfMatches;
         }
+
+
+
+
     }
 }
 

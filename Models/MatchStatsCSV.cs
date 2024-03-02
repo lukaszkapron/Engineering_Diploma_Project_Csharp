@@ -12,6 +12,7 @@ namespace Engineering_Diploma_Project_Csharp.Models
 
 
         //Home Team stats
+
         [Name("HomeTeam")]
         public string? HomeTeam { get; set; }
 
@@ -72,7 +73,6 @@ namespace Engineering_Diploma_Project_Csharp.Models
         public double HomeTeamCurrentSeasonCleanSheatsPerMatchHome { get; set; }
 
         // Last season
-
         [Name("HomeTeamLastSeasonPointsPerMatch")]
         public double HomeTeamLastSeasonPointsPerMatch { get; set; }
 
@@ -246,7 +246,6 @@ namespace Engineering_Diploma_Project_Csharp.Models
 
 
         // Last 5 matches
-
         [Name("HomeTeamLast5MatchesPointsPerMatch")]
         public double HomeTeamLast5MatchesPointsPerMatch { get; set; }
 
@@ -270,9 +269,8 @@ namespace Engineering_Diploma_Project_Csharp.Models
 
 
         // Last H2H match
-
         [Name("HomeTeamLastH2HMatchResultHome")]
-        public string HomeTeamLastH2HMatchResultHome{ get; set; }
+        public string? HomeTeamLastH2HMatchResultHome{ get; set; }
 
         [Name("HomeTeamLastH2HMAtchGoalsScoredHome")]
         public double HomeTeamLastH2HMAtchGoalsScoredHome { get; set; }
@@ -302,20 +300,6 @@ namespace Engineering_Diploma_Project_Csharp.Models
 
         [Name("HomeTeamLast4H2HMatchesCleanSheatsPerMatchHome")]
         public double HomeTeamLast4H2HMatchesCleanSheatsPerMatchHome { get; set; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -556,7 +540,6 @@ namespace Engineering_Diploma_Project_Csharp.Models
 
 
         // Last 5 matches
-
         [Name("AwayTeamLast5MatchesPointsPerMatch")]
         public double AwayTeamLast5MatchesPointsPerMatch { get; set; }
 
@@ -580,9 +563,8 @@ namespace Engineering_Diploma_Project_Csharp.Models
 
 
         // Last H2H match
-
         [Name("AwayTeamLastH2HMatchResultAway")]
-        public string AwayTeamLastH2HMatchResultAway { get; set; }
+        public string? AwayTeamLastH2HMatchResultAway { get; set; }
 
         [Name("AwayTeamLastH2HMAtchGoalsScoredAway")]
         public double AwayTeamLastH2HMAtchGoalsScoredAway { get; set; }
